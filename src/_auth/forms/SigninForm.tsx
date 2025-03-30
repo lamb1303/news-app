@@ -56,11 +56,11 @@ const SigninForm = () => {
       <div className="sm:w-420 flex-center flex-col">
         <img src="/assets/images/logo.svg" alt="logo" />
 
-        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
-          Log in to your account
+        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12 text-[#1A1A1A]">
+          Iniciar sesión
         </h2>
-        <p className="text-light-3 small-medium md:base-regular mt-2">
-          Welcome back! Please enter your details.
+        <p className="text-[#4A4A4A] small-medium md:base-regular mt-2">
+          Bienvenido de nuevo! Por favor, ingrese sus datos.
         </p>
         <form
           onSubmit={form.handleSubmit(handleSignin)}
@@ -70,11 +70,11 @@ const SigninForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Email</FormLabel>
+                <FormLabel className="shad-form_label text-[#1A1A1A]">Correo electrónico</FormLabel>
                 <FormControl>
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-[#C70000]" />
               </FormItem>
             )}
           />
@@ -84,31 +84,31 @@ const SigninForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Password</FormLabel>
+                <FormLabel className="shad-form_label text-[#1A1A1A]">Contraseña</FormLabel>
                 <FormControl>
                   <Input type="password" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-[#C70000]" />
               </FormItem>
             )}
           />
 
-          <Button type="submit" className="shad-button_primary">
+          <Button type="submit" className="shad-button_primary bg-[#BB1919] hover:bg-[#A51717]">
             {isLoading || isUserLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>
             ) : (
-              "Log in"
+              "Iniciar sesión"
             )}
           </Button>
 
-          <p className="text-small-regular text-light-2 text-center mt-2">
-            Don&apos;t have an account?
+          <p className="text-small-regular text-[#4A4A4A] text-center mt-2">
+            No tienes una cuenta?
             <Link
               to="/sign-up"
-              className="text-primary-500 text-small-semibold ml-1">
-              Sign up
+              className="text-[#BB1919] hover:text-[#A51717] text-small-semibold ml-1">
+              Registrarse
             </Link>
           </p>
         </form>

@@ -130,12 +130,12 @@ const Navbar = () => {
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
         isScrolled
-          ? "bg-dark-2 shadow-md"
-          : "bg-dark-2"
+          ? "bg-white shadow-md"
+          : "bg-white"
       )}
     >
       {/* Top Bar - Logo and User Actions */}
-      <div className="border-b border-dark-4">
+      <div className="border-b border-[#E5E5E5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-12">
             {/* Logo */}
@@ -154,22 +154,22 @@ const Navbar = () => {
               {/* Search Button and Dropdown */}
               <div className="relative" ref={searchRef}>
                 <button 
-                  className="p-2 rounded-full hover:bg-dark-4"
+                  className="p-2 rounded-full hover:bg-[#F5F5F5]"
                   onClick={() => setIsSearchOpen(!isSearchOpen)}
                 >
-                  <Search className="h-5 w-5 text-light-1" />
+                  <Search className="h-5 w-5 text-[#1A1A1A]" />
                 </button>
 
                 {/* Search Dropdown */}
                 {isSearchOpen && (
-                  <div className="absolute right-0 mt-2 w-96 bg-dark-2 border border-dark-4 rounded-lg shadow-lg">
+                  <div className="absolute right-0 mt-2 w-96 bg-white border border-[#E5E5E5] rounded-lg shadow-lg">
                     <div className="p-4">
                       <Input
                         type="text"
                         placeholder="Buscar noticia por titulo, descripcion o ubicacion..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="bg-dark-4 border-dark-4 text-light-1 placeholder:text-light-4"
+                        className="bg-white border-[#E5E5E5] text-[#1A1A1A] placeholder:text-[#4A4A4A]"
                       />
                     </div>
                     <div className="max-h-96 overflow-y-auto">
@@ -178,15 +178,15 @@ const Navbar = () => {
                           <Link
                             key={result.$id}
                             to={`/posts/${result.$id}`}
-                            className="flex items-center px-4 py-3 hover:bg-dark-4 border-t border-dark-4"
+                            className="flex items-center px-4 py-3 hover:bg-[#F5F5F5] border-t border-[#E5E5E5]"
                             onClick={() => {
                               setIsSearchOpen(false);
                               setSearchQuery("");
                             }}
                           >
                             <div className="flex flex-col">
-                              <span className="text-light-1">{result.title}</span>
-                              <span className="text-xs text-light-4">
+                              <span className="text-[#1A1A1A]">{result.title}</span>
+                              <span className="text-xs text-[#4A4A4A]">
                                 {result.location && `${result.location} • `}
                                 {result.caption?.substring(0, 100)}
                                 {result.caption?.length > 100 ? "..." : ""}
@@ -195,7 +195,7 @@ const Navbar = () => {
                           </Link>
                         ))
                       ) : searchQuery ? (
-                        <div className="px-4 py-3 text-light-4 text-center">
+                        <div className="px-4 py-3 text-[#4A4A4A] text-center">
                           No se encontraron resultados
                         </div>
                       ) : null}
@@ -206,14 +206,14 @@ const Navbar = () => {
 
               <Button
                 variant="ghost"
-                className="shad-button_ghost"
+                className="hover:bg-[#F5F5F5] text-[#BB1919] hover:text-[#A51717]"
                 onClick={() => signOut()}
               >
                 <img src="/assets/icons/logout.svg" alt="logout" className="h-5 w-5" />
               </Button>
               <div className="flex items-center gap-3">
                 {isAdmin && (
-                  <span className="px-2 py-1 text-xs font-medium text-primary-500 bg-primary-500/10 rounded-full">
+                  <span className="px-2 py-1 text-xs font-medium text-[#BB1919] bg-[#F5F5F5] rounded-full">
                     Admin
                   </span>
                 )}
@@ -231,7 +231,7 @@ const Navbar = () => {
       </div>
 
       {/* Main Navigation - App Features and Categories */}
-      <div className="bg-dark-2">
+      <div className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             {/* Desktop Navigation */}
@@ -246,8 +246,8 @@ const Navbar = () => {
                     className={cn(
                       "flex items-center space-x-2 text-sm font-medium transition-colors duration-200 rounded-lg px-4 py-2",
                       location.pathname === link.route
-                        ? "bg-primary-500 text-white"
-                        : "text-light-1 hover:bg-dark-4"
+                        ? "bg-[#BB1919] text-white"
+                        : "text-[#1A1A1A] hover:bg-[#F5F5F5]"
                     )}
                   >
                     <img
@@ -255,7 +255,7 @@ const Navbar = () => {
                       alt={link.label}
                       className={cn(
                         "h-5 w-5",
-                        location.pathname === link.route && "invert-white"
+                        location.pathname === link.route && "brightness-0 invert"
                       )}
                     />
                     <span>{link.label}</span>
@@ -270,9 +270,8 @@ const Navbar = () => {
                     className={cn(
                       "flex items-center space-x-2 text-sm font-medium transition-colors duration-200 rounded-lg px-4 py-2",
                       location.pathname === link.route
-                        ? "bg-primary-500 text-white"
-                        : "text-light-1 hover:bg-dark-4",
-                      "text-primary-500 hover:text-primary-500"
+                        ? "bg-[#BB1919] text-white"
+                        : "text-[#BB1919] hover:bg-[#F5F5F5]"
                     )}
                   >
                     <img
@@ -280,7 +279,7 @@ const Navbar = () => {
                       alt={link.label}
                       className={cn(
                         "h-5 w-5",
-                        location.pathname === link.route && "invert-white"
+                        location.pathname === link.route && "brightness-0 invert"
                       )}
                     />
                     <span>{link.label}</span>
@@ -291,13 +290,13 @@ const Navbar = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2 rounded-full hover:bg-dark-4"
+              className="md:hidden p-2 rounded-full hover:bg-[#F5F5F5]"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? (
-                <X className="h-6 w-6 text-light-1" />
+                <X className="h-6 w-6 text-[#1A1A1A]" />
               ) : (
-                <Menu className="h-6 w-6 text-light-1" />
+                <Menu className="h-6 w-6 text-[#1A1A1A]" />
               )}
             </button>
           </div>
@@ -306,7 +305,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-dark-2 border-t border-dark-4">
+        <div className="md:hidden bg-white border-t border-[#E5E5E5]">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {/* Regular navigation items - shown to all authenticated users */}
             {regularLinks.map((link) => (
@@ -316,8 +315,8 @@ const Navbar = () => {
                 className={cn(
                   "flex items-center px-3 py-2 rounded-md text-base font-medium",
                   location.pathname === link.route
-                    ? "bg-primary-500 text-white"
-                    : "text-light-1 hover:bg-dark-4"
+                    ? "bg-[#BB1919] text-white"
+                    : "text-[#1A1A1A] hover:bg-[#F5F5F5]"
                 )}
                 onClick={() => setIsOpen(false)}
               >
@@ -326,7 +325,7 @@ const Navbar = () => {
                   alt={link.label}
                   className={cn(
                     "h-5 w-5 mr-2",
-                    location.pathname === link.route && "invert-white"
+                    location.pathname === link.route && "brightness-0 invert"
                   )}
                 />
                 {link.label}
@@ -341,9 +340,8 @@ const Navbar = () => {
                 className={cn(
                   "flex items-center px-3 py-2 rounded-md text-base font-medium",
                   location.pathname === link.route
-                    ? "bg-primary-500 text-white"
-                    : "text-light-1 hover:bg-dark-4",
-                  "text-primary-500 hover:text-primary-500"
+                    ? "bg-[#BB1919] text-white"
+                    : "text-[#BB1919] hover:bg-[#F5F5F5]"
                 )}
                 onClick={() => setIsOpen(false)}
               >
@@ -352,7 +350,7 @@ const Navbar = () => {
                   alt={link.label}
                   className={cn(
                     "h-5 w-5 mr-2",
-                    location.pathname === link.route && "invert-white"
+                    location.pathname === link.route && "brightness-0 invert"
                   )}
                 />
                 {link.label}

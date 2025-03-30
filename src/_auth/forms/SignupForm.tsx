@@ -77,11 +77,11 @@ const SignupForm = () => {
       <div className="sm:w-420 flex-center flex-col">
         <img src="/assets/images/logo.svg" alt="logo" />
 
-        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
-          Create a new account
+        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12 text-[#1A1A1A]">
+          Crear cuenta nueva
         </h2>
-        <p className="text-light-3 small-medium md:base-regular mt-2">
-          To use snapgram, Please enter your details
+        <p className="text-[#4A4A4A] small-medium md:base-regular mt-2">
+          Para usar esta aplicación, por favor ingrese sus datos.
         </p>
 
         <form
@@ -92,11 +92,11 @@ const SignupForm = () => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Name</FormLabel>
+                <FormLabel className="shad-form_label text-[#1A1A1A]">Nombre</FormLabel>
                 <FormControl>
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-[#C70000]" />
               </FormItem>
             )}
           />
@@ -106,11 +106,11 @@ const SignupForm = () => {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Username</FormLabel>
+                <FormLabel className="shad-form_label text-[#1A1A1A]">Nombre de usuario</FormLabel>
                 <FormControl>
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-[#C70000]" />
               </FormItem>
             )}
           />
@@ -120,11 +120,11 @@ const SignupForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Email</FormLabel>
+                <FormLabel className="shad-form_label text-[#1A1A1A]">Correo electrónico</FormLabel>
                 <FormControl>
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-[#C70000]" />
               </FormItem>
             )}
           />
@@ -134,31 +134,31 @@ const SignupForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Password</FormLabel>
+                <FormLabel className="shad-form_label text-[#1A1A1A]">Contraseña</FormLabel>
                 <FormControl>
                   <Input type="password" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-[#C70000]" />
               </FormItem>
             )}
           />
 
-          <Button type="submit" className="shad-button_primary">
+          <Button type="submit" className="shad-button_primary bg-[#BB1919] hover:bg-[#A51717]">
             {isCreatingAccount || isSigningInUser || isUserLoading ? (
               <div className="flex-center gap-2">
-                <Loader /> Loading...
+                <Loader /> Cargando...
               </div>
             ) : (
-              "Sign Up"
+              "Registrarse"
             )}
           </Button>
 
-          <p className="text-small-regular text-light-2 text-center mt-2">
-            Already have an account?
+          <p className="text-small-regular text-[#4A4A4A] text-center mt-2">
+            Ya tienes una cuenta?
             <Link
               to="/sign-in"
-              className="text-primary-500 text-small-semibold ml-1">
-              Log in
+              className="text-[#BB1919] hover:text-[#A51717] text-small-semibold ml-1">
+              Iniciar sesión
             </Link>
           </p>
         </form>

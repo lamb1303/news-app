@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import { IUser } from "@/types";
 import { getCurrentUser } from "@/lib/appwrite/api";
+import Loader from "@/components/shared/Loader";
 
 export const INITIAL_USER: IUser = {
   id: "",
@@ -38,10 +39,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const [user, setUser] = useState<IUser>(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const checkAuthUser = async () => {
-    setIsLoading(true);
     try {
       const currentAccount = await getCurrentUser();
       if (currentAccount) {
@@ -55,30 +55,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           role: (currentAccount.role as "admin" | "user" | "editor") || "user",
         });
         setIsAuthenticated(true);
-
         return true;
       }
-
       return false;
     } catch (error) {
       console.error(error);
       return false;
-    } finally {
-      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     const cookieFallback = localStorage.getItem("cookieFallback");
-    if (
-      cookieFallback === "[]" ||
-      cookieFallback === null ||
-      cookieFallback === undefined
-    ) {
-      navigate("/sign-in");
-    }
+    const checkAuth = async () => {
+      if (
+        cookieFallback === "[]" ||
+        cookieFallback === null ||
+        cookieFallback === undefined
+      ) {
+        const isLoggedIn = await checkAuthUser();
+        if (!isLoggedIn) {
+          navigate("/sign-in");
+        }
+      } else {
+        await checkAuthUser();
+      }
+      setIsLoading(false);
+    };
 
-    checkAuthUser();
+    checkAuth();
   }, []);
 
   const value = {
@@ -89,6 +93,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsAuthenticated,
     checkAuthUser,
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
