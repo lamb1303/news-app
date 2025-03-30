@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { Input } from "@/components/ui";
-import useDebounce from "@/hooks/useDebounce";
+import { useDebounce } from "@/hooks/useDebounce";
 import { GridPostList, Loader } from "@/components/shared";
 import { useGetPosts, useSearchPosts } from "@/lib/react-query/queries";
 
@@ -18,7 +18,7 @@ const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) =
     return <GridPostList posts={searchedPosts.documents} />;
   } else {
     return (
-      <p className="text-light-4 mt-10 text-center w-full">No results found</p>
+      <p className="text-light-4 mt-10 text-center w-full">No se encontraron resultados</p>
     );
   }
 };
@@ -51,17 +51,18 @@ const Explore = () => {
   return (
     <div className="explore-container">
       <div className="explore-inner_container">
-        <h2 className="h3-bold md:h2-bold w-full">Search Posts</h2>
-        <div className="flex gap-1 px-4 w-full rounded-lg bg-dark-4">
+        <h2 className="h3-bold md:h2-bold w-full">Buscar Noticia</h2>
+        <div className="flex gap-1 px-4 w-full rounded-lg bg-[#F8F8F8] border border-[#E5E5E5]">
           <img
             src="/assets/icons/search.svg"
             width={24}
             height={24}
             alt="search"
+            className="invert-[0.2]"
           />
           <Input
             type="text"
-            placeholder="Search"
+            placeholder="Buscar noticia por titulo, descripcion o ubicacion..."
             className="explore-search"
             value={searchValue}
             onChange={(e) => {
@@ -73,15 +74,16 @@ const Explore = () => {
       </div>
 
       <div className="flex-between w-full max-w-5xl mt-16 mb-7">
-        <h3 className="body-bold md:h3-bold">Popular Today</h3>
+        <h3 className="body-bold md:h3-bold text-[#1A1A1A]">Noticias Populares</h3>
 
-        <div className="flex-center gap-3 bg-dark-3 rounded-xl px-4 py-2 cursor-pointer">
-          <p className="small-medium md:base-medium text-light-2">All</p>
+        <div className="flex-center gap-3 bg-[#F8F8F8] rounded-xl px-4 py-2 cursor-pointer border border-[#E5E5E5] hover:bg-[#F0F0F0] transition-colors duration-200">
+          <p className="small-medium md:base-medium text-[#1A1A1A]">Todas</p>
           <img
             src="/assets/icons/filter.svg"
             width={20}
             height={20}
             alt="filter"
+            className="invert-[0.2]"
           />
         </div>
       </div>
@@ -93,7 +95,7 @@ const Explore = () => {
             searchedPosts={searchedPosts}
           />
         ) : shouldShowPosts ? (
-          <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
+          <p className="text-[#666666] mt-10 text-center w-full">End of posts</p>
         ) : (
           posts.pages.map((item, index) => (
             <GridPostList key={`page-${index}`} posts={item.documents} />

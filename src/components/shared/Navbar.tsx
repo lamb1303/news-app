@@ -1,0 +1,368 @@
+import { useState, useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, Search, Home, Compass, Users, Bookmark, PlusSquare, Settings, Shield, FileText } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { useUserContext } from "@/context/AuthContext";
+import { useSignOutAccount, useGetPosts } from "@/lib/react-query/queries";
+import { Input } from "../ui/input";
+import { useDebounce } from "@/hooks/useDebounce";
+
+// Regular navigation items
+const regularLinks = [
+  {
+    imgURL: "/assets/icons/home.svg",
+    route: "/",
+    label: "Inicio",
+  },
+  {
+    imgURL: "/assets/icons/wallpaper.svg",
+    route: "/explore",
+    label: "Noticias",
+  },
+  {
+    imgURL: "/assets/icons/bookmark.svg",
+    route: "/saved",
+    label: "Guardados",
+  },
+  {
+    imgURL: "/assets/icons/add-post.svg",
+    route: "/create-post",
+    label: "Crear",
+  },
+];
+
+// Admin-specific navigation items
+const adminLinks = [
+  {
+    imgURL: "/assets/icons/people.svg",
+    route: "/all-users",
+    label: "Users",
+  },
+  {
+    imgURL: "/assets/icons/settings.svg",
+    route: "/admin/settings",
+    label: "Settings",
+  },
+  {
+    imgURL: "/assets/icons/shield.svg",
+    route: "/admin/roles",
+    label: "Roles",
+  },
+  {
+    imgURL: "/assets/icons/file-text.svg",
+    route: "/admin/content",
+    label: "Content",
+  },
+];
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const debouncedSearch = useDebounce(searchQuery, 300);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useUserContext();
+  const { mutate: signOut, isSuccess } = useSignOutAccount();
+  const { data: postsData } = useGetPosts();
+
+  // Get unique locations from posts
+  const locations = postsData?.pages.reduce((acc: string[], page) => {
+    const pageLocations = page.documents
+      .map((post: any) => post.location)
+      .filter((loc: string) => loc && !acc.includes(loc));
+    return [...acc, ...pageLocations];
+  }, []) || [];
+
+  // Admin check - make sure we're properly checking the role
+  const isAdmin = user?.role === "admin";
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Handle search
+  useEffect(() => {
+    if (debouncedSearch && postsData) {
+      const searchTerm = debouncedSearch.toLowerCase();
+      const results = postsData.pages.reduce((acc: any[], page) => {
+        const pageResults = page.documents.filter((post: any) => {
+          const titleMatch = post.title?.toLowerCase().includes(searchTerm);
+          const captionMatch = post.caption?.toLowerCase().includes(searchTerm);
+          const locationMatch = post.location?.toLowerCase().includes(searchTerm);
+          return titleMatch || captionMatch || locationMatch;
+        });
+        return [...acc, ...pageResults];
+      }, []);
+      setSearchResults(results);
+    } else {
+      setSearchResults([]);
+    }
+  }, [debouncedSearch, postsData]);
+
+  // Handle click outside search
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) navigate(0);
+  }, [isSuccess]);
+
+  return (
+    <nav
+      className={cn(
+        "fixed top-0 w-full z-50 transition-all duration-300",
+        isScrolled
+          ? "bg-dark-2 shadow-md"
+          : "bg-dark-2"
+      )}
+    >
+      {/* Top Bar - Logo and User Actions */}
+      <div className="border-b border-dark-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-12">
+            {/* Logo */}
+            <Link to="/" className="flex items-center">
+              <img
+                src="/assets/images/logo.svg"
+                alt="logo"
+                width={130}
+                height={325}
+                className="h-6 w-auto"
+              />
+            </Link>
+
+            {/* User Actions */}
+            <div className="flex items-center space-x-4">
+              {/* Search Button and Dropdown */}
+              <div className="relative" ref={searchRef}>
+                <button 
+                  className="p-2 rounded-full hover:bg-dark-4"
+                  onClick={() => setIsSearchOpen(!isSearchOpen)}
+                >
+                  <Search className="h-5 w-5 text-light-1" />
+                </button>
+
+                {/* Search Dropdown */}
+                {isSearchOpen && (
+                  <div className="absolute right-0 mt-2 w-96 bg-dark-2 border border-dark-4 rounded-lg shadow-lg">
+                    <div className="p-4">
+                      <Input
+                        type="text"
+                        placeholder="Buscar noticia por titulo, descripcion o ubicacion..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="bg-dark-4 border-dark-4 text-light-1 placeholder:text-light-4"
+                      />
+                    </div>
+                    <div className="max-h-96 overflow-y-auto">
+                      {searchResults.length > 0 ? (
+                        searchResults.map((result) => (
+                          <Link
+                            key={result.$id}
+                            to={`/posts/${result.$id}`}
+                            className="flex items-center px-4 py-3 hover:bg-dark-4 border-t border-dark-4"
+                            onClick={() => {
+                              setIsSearchOpen(false);
+                              setSearchQuery("");
+                            }}
+                          >
+                            <div className="flex flex-col">
+                              <span className="text-light-1">{result.title}</span>
+                              <span className="text-xs text-light-4">
+                                {result.location && `${result.location} • `}
+                                {result.caption?.substring(0, 100)}
+                                {result.caption?.length > 100 ? "..." : ""}
+                              </span>
+                            </div>
+                          </Link>
+                        ))
+                      ) : searchQuery ? (
+                        <div className="px-4 py-3 text-light-4 text-center">
+                          No se encontraron resultados
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <Button
+                variant="ghost"
+                className="shad-button_ghost"
+                onClick={() => signOut()}
+              >
+                <img src="/assets/icons/logout.svg" alt="logout" className="h-5 w-5" />
+              </Button>
+              <div className="flex items-center gap-3">
+                {isAdmin && (
+                  <span className="px-2 py-1 text-xs font-medium text-primary-500 bg-primary-500/10 rounded-full">
+                    Admin
+                  </span>
+                )}
+                <Link to={`/profile/${user.id}`} className="flex-center gap-3">
+                  <img
+                    src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
+                    alt="profile"
+                    className="h-8 w-8 rounded-full"
+                  />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Navigation - App Features and Categories */}
+      <div className="bg-dark-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-8">
+              {/* Navigation Items based on role */}
+              <div className="flex items-center space-x-6">
+                {/* Regular navigation items - shown to all authenticated users */}
+                {regularLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    to={link.route}
+                    className={cn(
+                      "flex items-center space-x-2 text-sm font-medium transition-colors duration-200 rounded-lg px-4 py-2",
+                      location.pathname === link.route
+                        ? "bg-primary-500 text-white"
+                        : "text-light-1 hover:bg-dark-4"
+                    )}
+                  >
+                    <img
+                      src={link.imgURL}
+                      alt={link.label}
+                      className={cn(
+                        "h-5 w-5",
+                        location.pathname === link.route && "invert-white"
+                      )}
+                    />
+                    <span>{link.label}</span>
+                  </Link>
+                ))}
+
+                {/* Admin navigation items - shown only to admin users */}
+                {isAdmin && adminLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    to={link.route}
+                    className={cn(
+                      "flex items-center space-x-2 text-sm font-medium transition-colors duration-200 rounded-lg px-4 py-2",
+                      location.pathname === link.route
+                        ? "bg-primary-500 text-white"
+                        : "text-light-1 hover:bg-dark-4",
+                      "text-primary-500 hover:text-primary-500"
+                    )}
+                  >
+                    <img
+                      src={link.imgURL}
+                      alt={link.label}
+                      className={cn(
+                        "h-5 w-5",
+                        location.pathname === link.route && "invert-white"
+                      )}
+                    />
+                    <span>{link.label}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2 rounded-full hover:bg-dark-4"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? (
+                <X className="h-6 w-6 text-light-1" />
+              ) : (
+                <Menu className="h-6 w-6 text-light-1" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Navigation */}
+      {isOpen && (
+        <div className="md:hidden bg-dark-2 border-t border-dark-4">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            {/* Regular navigation items - shown to all authenticated users */}
+            {regularLinks.map((link) => (
+              <Link
+                key={link.label}
+                to={link.route}
+                className={cn(
+                  "flex items-center px-3 py-2 rounded-md text-base font-medium",
+                  location.pathname === link.route
+                    ? "bg-primary-500 text-white"
+                    : "text-light-1 hover:bg-dark-4"
+                )}
+                onClick={() => setIsOpen(false)}
+              >
+                <img
+                  src={link.imgURL}
+                  alt={link.label}
+                  className={cn(
+                    "h-5 w-5 mr-2",
+                    location.pathname === link.route && "invert-white"
+                  )}
+                />
+                {link.label}
+              </Link>
+            ))}
+
+            {/* Admin navigation items - shown only to admin users */}
+            {isAdmin && adminLinks.map((link) => (
+              <Link
+                key={link.label}
+                to={link.route}
+                className={cn(
+                  "flex items-center px-3 py-2 rounded-md text-base font-medium",
+                  location.pathname === link.route
+                    ? "bg-primary-500 text-white"
+                    : "text-light-1 hover:bg-dark-4",
+                  "text-primary-500 hover:text-primary-500"
+                )}
+                onClick={() => setIsOpen(false)}
+              >
+                <img
+                  src={link.imgURL}
+                  alt={link.label}
+                  className={cn(
+                    "h-5 w-5 mr-2",
+                    location.pathname === link.route && "invert-white"
+                  )}
+                />
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar; 

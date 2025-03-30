@@ -10,12 +10,15 @@ import {
   PostDetails,
   UpdateProfile,
   AllUsers,
+  Location,
+  AdminSetup,
 } from "@/_root/pages";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
 import SignupForm from "@/_auth/forms/SignupForm";
 import SigninForm from "@/_auth/forms/SigninForm";
 import { Toaster } from "@/components/ui/toaster";
+import ProtectedRoute from "@/components/shared/ProtectedRoute";
 
 import "./globals.css";
 
@@ -31,15 +34,131 @@ const App = () => {
 
         {/* private routes */}
         <Route element={<RootLayout />}>
-          <Route index element={<Home />} />
-          <Route path="/explore" element={<Explore />} />
-          <Route path="/saved" element={<Saved />} />
-          <Route path="/all-users" element={<AllUsers />} />
-          <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/update-post/:id" element={<EditPost />} />
-          <Route path="/posts/:id" element={<PostDetails />} />
-          <Route path="/profile/:id/*" element={<Profile />} />
-          <Route path="/update-profile/:id" element={<UpdateProfile />} />
+          {/* Admin setup - temporary route */}
+          <Route
+            path="/admin-setup"
+            element={
+              <ProtectedRoute>
+                <AdminSetup />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Public routes that require authentication */}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/:location"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/explore"
+            element={
+              <ProtectedRoute>
+                <Explore />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/saved"
+            element={
+              <ProtectedRoute>
+                <Saved />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-post"
+            element={
+              <ProtectedRoute>
+                <CreatePost />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/update-post/:id"
+            element={
+              <ProtectedRoute>
+                <EditPost />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/posts/:id"
+            element={
+              <ProtectedRoute>
+                <PostDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile/:id/*"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/update-profile/:id"
+            element={
+              <ProtectedRoute>
+                <UpdateProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/location/:location"
+            element={
+              <ProtectedRoute>
+                <Location />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Admin-only routes */}
+          <Route
+            path="/all-users"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AllUsers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/settings"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <div>Admin Settings</div>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/roles"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <div>Role Management</div>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/content"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <div>Content Management</div>
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
 

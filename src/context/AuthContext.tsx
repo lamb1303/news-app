@@ -4,13 +4,14 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { IUser } from "@/types";
 import { getCurrentUser } from "@/lib/appwrite/api";
 
-export const INITIAL_USER = {
+export const INITIAL_USER: IUser = {
   id: "",
   name: "",
   username: "",
   email: "",
   imageUrl: "",
   bio: "",
+  role: "user",
 };
 
 const INITIAL_STATE = {
@@ -51,6 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: currentAccount.email,
           imageUrl: currentAccount.imageUrl,
           bio: currentAccount.bio,
+          role: (currentAccount.role as "admin" | "user" | "editor") || "user",
         });
         setIsAuthenticated(true);
 

@@ -544,3 +544,22 @@ export async function updateUser(user: IUpdateUser) {
     console.log(error);
   }
 }
+
+// ============================== UPDATE USER ROLE
+export async function updateUserRole(userId: string, role: "admin" | "user" | "editor") {
+  try {
+    const updatedUser = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId,
+      {
+        role: role,
+      }
+    );
+
+    return updatedUser;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

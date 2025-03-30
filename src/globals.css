@@ -5,12 +5,25 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* BBC-inspired color palette - Light Theme */
+    --bbc-primary: #BB1919;      /* BBC Red */
+    --bbc-secondary: #1A1A1A;    /* BBC Dark Gray */
+    --bbc-accent: #2B6CB0;       /* BBC Blue */
+    --bbc-text: #1A1A1A;         /* Dark Text */
+    --bbc-text-secondary: #666666; /* Secondary Text */
+    --bbc-background: #FFFFFF;   /* White Background */
+    --bbc-card: #F8F8F8;         /* Light Card Background */
+    --bbc-border: #E5E5E5;       /* Light Border */
+    --bbc-hover: #F0F0F0;        /* Hover State */
+  }
+
   * {
     @apply box-border list-none p-0 m-0 scroll-smooth;
   }
 
   body {
-    @apply bg-dark-1 text-white min-h-screen font-inter;
+    @apply bg-white text-[#1A1A1A] min-h-screen font-inter;
   }
 }
 
@@ -96,20 +109,69 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: #09090a;
+    background: #F8F8F8;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #5c5c7b;
+    background: #2B6CB0;
     border-radius: 50px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #7878a3;
+    background: #4299E1;
   }
 
+  /* BBC-inspired container styles */
   .common-container {
     @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
+  }
+
+  /* Home */
+  .home-container {
+    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
+  }
+
+  .home-posts {
+    @apply flex flex-col items-center w-full gap-6 md:gap-9;
+  }
+
+  /* Post Card */
+  .post-card {
+    @apply bg-[#F8F8F8] rounded-xl border border-[#E5E5E5] w-full transition-all duration-300 hover:shadow-lg hover:shadow-[#BB1919]/10;
+  }
+
+  /* BBC-inspired button styles */
+  .bbc-button {
+    @apply bg-[#BB1919] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#A31616] transition-colors duration-200;
+  }
+
+  .bbc-button-secondary {
+    @apply bg-[#2B6CB0] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#2563A5] transition-colors duration-200;
+  }
+
+  /* BBC-inspired input styles */
+  .bbc-input {
+    @apply bg-white border border-[#E5E5E5] rounded-lg px-4 py-2 text-[#1A1A1A] focus:outline-none focus:ring-2 focus:ring-[#BB1919] focus:border-transparent;
+  }
+
+  /* BBC-inspired link styles */
+  .bbc-link {
+    @apply text-[#BB1919] hover:text-[#A31616] transition-colors duration-200;
+  }
+
+  /* BBC-inspired badge styles */
+  .bbc-badge {
+    @apply bg-[#BB1919] text-white text-xs px-2 py-1 rounded-full;
+  }
+
+  /* BBC-inspired card hover effect */
+  .bbc-card-hover {
+    @apply hover:bg-[#F0F0F0] transition-colors duration-200;
+  }
+
+  /* BBC-inspired gradient overlay */
+  .bbc-gradient-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/90 via-[#1A1A1A]/50 to-transparent;
   }
 
   /* All Users */
@@ -131,20 +193,11 @@
   }
 
   .explore-search {
-    @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-0 focus-visible:ring-offset-0 ring-offset-0 !important;
-  }
-
-  /* Home */
-  .home-container {
-    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
-  }
-
-  .home-posts {
-    @apply max-w-screen-sm flex flex-col items-center w-full gap-6 md:gap-9;
+    @apply h-12 bg-transparent border-0 placeholder:text-[#666666] focus-visible:ring-0 focus-visible:ring-offset-0 ring-offset-0 !important;
   }
 
   .home-creators {
-    @apply hidden xl:flex flex-col w-72 2xl:w-465 px-6 py-10 gap-10  overflow-scroll custom-scrollbar;
+    @apply hidden xl:flex flex-col w-72 2xl:w-465 px-6 py-10 gap-10 overflow-scroll custom-scrollbar;
   }
 
   /* Post Details */
@@ -153,24 +206,24 @@
   }
 
   .post_details-card {
-    @apply bg-dark-2 w-full max-w-5xl rounded-[30px] flex-col flex xl:flex-row border border-dark-4 xl:rounded-l-[24px];
+    @apply bg-white w-full max-w-5xl rounded-[30px] flex-col flex xl:flex-row border border-[#E5E5E5] xl:rounded-l-[24px];
   }
 
   .post_details-img {
-    @apply h-80 lg:h-[480px] xl:w-[48%] rounded-t-[30px] xl:rounded-l-[24px] xl:rounded-tr-none object-cover p-5 bg-dark-1;
+    @apply h-80 lg:h-[480px] xl:w-[48%] rounded-t-[30px] xl:rounded-l-[24px] xl:rounded-tr-none object-cover p-5 bg-[#F8F8F8];
   }
 
   .post_details-info {
-    @apply bg-dark-2 flex flex-col gap-5 lg:gap-7 flex-1 items-start p-8 rounded-[30px];
+    @apply bg-white flex flex-col gap-5 lg:gap-7 flex-1 items-start p-8 rounded-[30px];
   }
 
   .post_details-delete_btn {
-    @apply p-0 flex gap-3 hover:bg-transparent hover:text-light-1  text-light-1 small-medium lg:base-medium;
+    @apply p-0 flex gap-3 hover:bg-transparent hover:text-[#1A1A1A] text-[#1A1A1A] small-medium lg:base-medium;
   }
 
   /* Profile */
   .profile-container {
-    @apply flex flex-col items-center flex-1 gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
+    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
   }
 
   .profile-inner_container {
@@ -178,7 +231,7 @@
   }
 
   .profile-tab {
-    @apply flex-center gap-3 py-4 w-48 bg-dark-2  transition flex-1 xl:flex-initial;
+    @apply flex-center gap-3 py-4 w-48 bg-[#F8F8F8] text-[#1A1A1A] transition flex-1 xl:flex-initial hover:bg-[#F0F0F0];
   }
 
   /* Saved */
@@ -188,7 +241,7 @@
 
   /* Bottom bar */
   .bottom-bar {
-    @apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px] bg-dark-2 px-5 py-4 md:hidden;
+    @apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px] bg-white px-5 py-4 md:hidden border-t border-[#E5E5E5];
   }
 
   /* File uploader */
@@ -197,7 +250,7 @@
   }
 
   .file_uploader-label {
-    @apply text-light-4 text-center small-regular w-full p-4 border-t border-t-dark-4;
+    @apply text-[#666666] text-center small-regular w-full p-4 border-t border-[#E5E5E5];
   }
 
   .file_uploader-box {
@@ -210,39 +263,30 @@
   }
 
   .grid-post_link {
-    @apply flex rounded-[24px] border border-dark-4 overflow-hidden cursor-pointer w-full h-full;
+    @apply flex rounded-[24px] border border-[#E5E5E5] overflow-hidden cursor-pointer w-full h-full;
   }
 
   .grid-post_user {
-    @apply absolute bottom-0 p-5 flex-between w-full bg-gradient-to-t from-dark-3 to-transparent rounded-b-[24px] gap-2;
+    @apply absolute bottom-0 p-5 flex-between w-full bg-gradient-to-t from-[#1A1A1A]/90 to-transparent rounded-b-[24px] gap-2;
   }
 
   /* Left sidebar */
   .leftsidebar {
-    @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2;
+    @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-[#F8F8F8];
   }
 
   .leftsidebar-link {
-    @apply rounded-lg base-medium hover:bg-primary-500 transition;
-  }
-
-  /* Post Card */
-  .post-card {
-    @apply bg-dark-2 rounded-3xl border border-dark-4 p-5 lg:p-7 w-full max-w-screen-sm;
-  }
-
-  .post-card_img {
-    @apply h-64 xs:h-[400px] lg:h-[450px] w-full rounded-[24px] object-cover mb-5;
+    @apply rounded-lg base-medium hover:bg-[#BB1919] hover:text-white transition;
   }
 
   /* Topbar */
   .topbar {
-    @apply sticky top-0 z-50 md:hidden bg-dark-2 w-full;
+    @apply sticky top-0 z-50 md:hidden bg-white w-full border-b border-[#E5E5E5];
   }
 
   /* User card */
   .user-card {
-    @apply flex-center flex-col gap-4 border border-dark-4 rounded-[20px] px-5 py-8;
+    @apply flex-center flex-col gap-4 border border-[#E5E5E5] rounded-[20px] px-5 py-8 bg-white;
   }
 }
 
@@ -250,31 +294,31 @@
   /* SHADCN COMPONENTS */
   /* Form */
   .shad-form_label {
-    @apply text-white !important;
+    @apply text-[#1A1A1A] !important;
   }
 
   .shad-form_message {
-    @apply text-red !important;
+    @apply text-[#BB1919] !important;
   }
 
   .shad-input {
-    @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
+    @apply bg-white border-[#E5E5E5] text-[#1A1A1A] focus:ring-[#BB1919];
   }
 
   .shad-textarea {
-    @apply h-36 bg-dark-3 rounded-xl border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
+    @apply h-36 bg-white rounded-xl border border-[#E5E5E5] focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-white !important;
   }
 
   /* Button */
   .shad-button_primary {
-    @apply bg-primary-500 hover:bg-primary-500 text-light-1 flex gap-2 !important;
+    @apply bg-[#BB1919] hover:bg-[#A31616] text-white flex gap-2 !important;
   }
 
-  .shad-button_dark_4 {
-    @apply h-12 bg-dark-4 px-5 text-light-1 flex gap-2 !important;
+  .shad-button_dark {
+    @apply bg-[#F8F8F8] text-[#1A1A1A] hover:bg-[#F0F0F0] transition-colors duration-200;
   }
 
   .shad-button_ghost {
-    @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-white !important;
+    @apply hover:bg-[#F0F0F0] transition-colors duration-200;
   }
 }

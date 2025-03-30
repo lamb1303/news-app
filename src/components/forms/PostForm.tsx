@@ -23,7 +23,7 @@ import { useCreatePost, useUpdatePost } from "@/lib/react-query/queries";
 
 type PostFormProps = {
   post?: Models.Document;
-  action: "Create" | "Update";
+  action: "Crear" | "Editar";
 };
 
 const PostForm = ({ post, action }: PostFormProps) => {
@@ -49,7 +49,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
   // Handler
   const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
     // ACTION = UPDATE
-    if (post && action === "Update") {
+    if (post && action === "Editar") {
       const updatedPost = await updatePost({
         ...value,
         postId: post.$id,
@@ -83,16 +83,17 @@ const PostForm = ({ post, action }: PostFormProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col gap-9 w-full  max-w-5xl">
+        className="flex flex-col gap-9 w-full">
         <FormField
           control={form.control}
           name="caption"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label">Caption</FormLabel>
+              <FormLabel className="shad-form_label">Descripcion</FormLabel>
               <FormControl>
                 <Textarea
                   className="shad-textarea custom-scrollbar"
+                  placeholder="Escribe tu noticia aquí..."
                   {...field}
                 />
               </FormControl>
@@ -106,7 +107,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
           name="file"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label">Add Photos</FormLabel>
+              <FormLabel className="shad-form_label">Agregar Imagen</FormLabel>
               <FormControl>
                 <FileUploader
                   fieldChange={field.onChange}
@@ -123,9 +124,14 @@ const PostForm = ({ post, action }: PostFormProps) => {
           name="location"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label">Add Location</FormLabel>
+              <FormLabel className="shad-form_label">Ubicacion</FormLabel>
               <FormControl>
-                <Input type="text" className="shad-input" {...field} />
+                <Input 
+                  type="text" 
+                  className="shad-input" 
+                  placeholder="Ej: Ciudad, País"
+                  {...field} 
+                />
               </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
@@ -138,11 +144,11 @@ const PostForm = ({ post, action }: PostFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="shad-form_label">
-                Add Tags (separated by comma " , ")
+                Agregar Etiquetas (separadas por coma " , ")
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Art, Expression, Learn"
+                  placeholder="Arte, Expresion, Aprender"
                   type="text"
                   className="shad-input"
                   {...field}
@@ -156,16 +162,16 @@ const PostForm = ({ post, action }: PostFormProps) => {
         <div className="flex gap-4 items-center justify-end">
           <Button
             type="button"
-            className="shad-button_dark_4"
+            className="shad-button_dark"
             onClick={() => navigate(-1)}>
-            Cancel
+            Cancelar
           </Button>
           <Button
             type="submit"
             className="shad-button_primary whitespace-nowrap"
             disabled={isLoadingCreate || isLoadingUpdate}>
             {(isLoadingCreate || isLoadingUpdate) && <Loader />}
-            {action} Post
+            {action} Noticia
           </Button>
         </div>
       </form>

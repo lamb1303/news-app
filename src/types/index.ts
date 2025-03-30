@@ -38,6 +38,7 @@ export type IUser = {
   email: string;
   imageUrl: string;
   bio: string;
+  role?: "admin" | "user" | "editor";
 };
 
 export type INewUser = {
