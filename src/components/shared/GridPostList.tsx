@@ -17,10 +17,12 @@ const GridPostList = ({
 }: GridPostListProps) => {
   const { user } = useUserContext();
 
+  if (!posts) return null;
+
   return (
     <ul className="grid-container">
-      {posts.map((post) => (
-        <li key={post.$id} className="relative min-w-80 h-80">
+      {posts.map((post, index) => (
+        <li key={post.$id || `post-${index}`} className="relative min-w-80 h-80">
           <Link to={`/posts/${post.$id}`} className="grid-post_link">
             <img
               src={post.imageUrl}
@@ -29,7 +31,7 @@ const GridPostList = ({
             />
             <div className="absolute top-0 left-0 right-0 p-4">
               <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag: string, index: string) => (
+                {post.tags?.map((tag: string, index: string) => (
                   <span
                     key={`${tag}${index}`}
                     className="text-xs text-white bg-[#BB1919]/90 px-2 py-1 rounded-full backdrop-blur-sm"
@@ -57,13 +59,13 @@ const GridPostList = ({
                 <div className="flex items-center gap-2">
                   <img
                     src={
-                      post.creator.imageUrl ||
+                      post.creator?.imageUrl ||
                       "/assets/icons/profile-placeholder.svg"
                     }
                     alt="creator"
                     className="w-8 h-8 rounded-full border-2 border-[#BB1919]"
                   />
-                  <p className="line-clamp-1 text-white font-medium">{post.creator.name}</p>
+                  <p className="line-clamp-1 text-white font-medium">{post.creator?.name}</p>
                 </div>
               )}
               {showStats && (

@@ -26,7 +26,7 @@ const Location = () => {
     return (
       <div className="flex-center w-full h-full">
         <p className="text-light-4">
-          No se encontraron noticias para esta ubicacion.
+          No se encontraron noticias para esta categoria.
         </p>
       </div>
     );

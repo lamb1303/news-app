@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 
 import { Input } from "@/components/ui";
 import { useDebounce } from "@/hooks/useDebounce";
-import { GridPostList, Loader } from "@/components/shared";
+import { GridPostList, Loader, NoDataMessage } from "@/components/shared";
 import { useGetPosts, useSearchPosts } from "@/lib/react-query/queries";
 
 export type SearchResultProps = {
@@ -11,14 +11,20 @@ export type SearchResultProps = {
   searchedPosts: any;
 };
 
-const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) => {
+const SearchResults = ({
+  isSearchFetching,
+  searchedPosts,
+}: SearchResultProps) => {
   if (isSearchFetching) {
     return <Loader />;
   } else if (searchedPosts && searchedPosts.documents.length > 0) {
     return <GridPostList posts={searchedPosts.documents} />;
   } else {
     return (
-      <p className="text-light-4 mt-10 text-center w-full">No se encontraron resultados</p>
+      <NoDataMessage
+        title="No se encontraron resultados"
+        message="Intenta con otros términos de búsqueda"
+      />
     );
   }
 };
@@ -29,7 +35,8 @@ const Explore = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounce(searchValue, 500);
-  const { data: searchedPosts, isFetching: isSearchFetching } = useSearchPosts(debouncedSearch);
+  const { data: searchedPosts, isFetching: isSearchFetching } =
+    useSearchPosts(debouncedSearch);
 
   useEffect(() => {
     if (inView && !searchValue) {
@@ -45,13 +52,17 @@ const Explore = () => {
     );
 
   const shouldShowSearchResults = searchValue !== "";
-  const shouldShowPosts = !shouldShowSearchResults && 
+  const shouldShowPosts =
+    !shouldShowSearchResults &&
     posts.pages.every((item) => item.documents.length === 0);
 
   return (
     <div className="explore-container">
       <div className="explore-inner_container">
-        <h2 className="h3-bold md:h2-bold w-full">Buscar Noticia</h2>
+        <h2 className="h3-bold md:h2-bold w-full">
+          Buscar Noticia
+          <div className="h-1 w-20 bg-[#BB1919] rounded-full"></div>
+        </h2>
         <div className="flex gap-1 px-4 w-full rounded-lg bg-[#F8F8F8] border border-[#E5E5E5]">
           <img
             src="/assets/icons/search.svg"
@@ -62,7 +73,7 @@ const Explore = () => {
           />
           <Input
             type="text"
-            placeholder="Buscar noticia por titulo, descripcion o ubicacion..."
+            placeholder="Buscar noticia por titulo, descripcion o categoria..."
             className="explore-search"
             value={searchValue}
             onChange={(e) => {
@@ -74,7 +85,9 @@ const Explore = () => {
       </div>
 
       <div className="flex-between w-full max-w-5xl mt-16 mb-7">
-        <h3 className="body-bold md:h3-bold text-[#1A1A1A]">Noticias Populares</h3>
+        <h3 className="body-bold md:h3-bold text-[#1A1A1A]">
+          Noticias Populares
+        </h3>
 
         <div className="flex-center gap-3 bg-[#F8F8F8] rounded-xl px-4 py-2 cursor-pointer border border-[#E5E5E5] hover:bg-[#F0F0F0] transition-colors duration-200">
           <p className="small-medium md:base-medium text-[#1A1A1A]">Todas</p>
@@ -95,7 +108,10 @@ const Explore = () => {
             searchedPosts={searchedPosts}
           />
         ) : shouldShowPosts ? (
-          <p className="text-[#666666] mt-10 text-center w-full">End of posts</p>
+          <NoDataMessage
+            title="No hay noticias"
+            message="Las noticias no estan disponibles en este momento"
+          />
         ) : (
           posts.pages.map((item, index) => (
             <GridPostList key={`page-${index}`} posts={item.documents} />

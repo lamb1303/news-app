@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 
 import Navbar from "@/components/shared/Navbar";
-import Bottombar from "@/components/shared/Bottombar";
 
 const RootLayout = () => {
   return (
@@ -10,7 +9,6 @@ const RootLayout = () => {
       <main className="flex flex-1 h-full pt-16">
         <Outlet />
       </main>
-      <Bottombar />
     </div>
   );
 };

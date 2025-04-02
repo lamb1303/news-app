@@ -96,7 +96,7 @@ const SigninForm = () => {
           <Button type="submit" className="shad-button_primary bg-[#BB1919] hover:bg-[#A51717]">
             {isLoading || isUserLoading ? (
               <div className="flex-center gap-2">
-                <Loader /> Loading...
+                <Loader /> Cargando...
               </div>
             ) : (
               "Iniciar sesión"

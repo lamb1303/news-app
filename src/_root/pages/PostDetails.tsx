@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui";
-import { Loader } from "@/components/shared";
+import { Loader, NoDataMessage } from "@/components/shared";
 import { GridPostList, PostStats } from "@/components/shared";
 
 import {
@@ -156,11 +156,16 @@ const PostDetails = () => {
           <div className="flex items-center gap-3 mb-6">
             <div className="h-8 w-1 bg-[#BB1919] rounded-full"></div>
             <h3 className="body-bold md:h3-bold text-[#1A1A1A]">
-              Mas Noticias Relacionadas
+              Más Noticias Relacionadas
             </h3>
           </div>
           {isUserPostLoading || !relatedPosts ? (
             <Loader />
+          ) : relatedPosts.length === 0 ? (
+            <NoDataMessage
+              title="No hay noticias relacionadas"
+              message="No hay más noticias del mismo autor en este momento"
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {relatedPosts.map((relatedPost) => (

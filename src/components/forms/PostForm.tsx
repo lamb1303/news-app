@@ -124,12 +124,12 @@ const PostForm = ({ post, action }: PostFormProps) => {
           name="location"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label">Ubicacion</FormLabel>
+              <FormLabel className="shad-form_label">Categoria</FormLabel>
               <FormControl>
                 <Input 
                   type="text" 
                   className="shad-input" 
-                  placeholder="Ej: Ciudad, País"
+                  placeholder="Ej: Arte, Expresion, Aprender"
                   {...field} 
                 />
               </FormControl>
