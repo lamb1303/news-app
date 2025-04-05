@@ -111,10 +111,10 @@ const Navbar = () => {
     <nav
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
-        isScrolled ? "bg-white shadow-md" : "bg-white"
+        isScrolled ? "bg-[#BB1919] shadow-md" : "bg-[#BB1919]"
       )}>
       {/* Top Bar - Logo and User Actions */}
-      <div className="border-b border-[#E5E5E5]">
+      <div className="border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-12">
             {/* Logo */}
@@ -124,7 +124,7 @@ const Navbar = () => {
                 alt="logo"
                 width={130}
                 height={325}
-                className="h-6 w-auto"
+                className="h-6 w-auto brightness-0 invert"
               />
             </Link>
 
@@ -133,9 +133,9 @@ const Navbar = () => {
               {/* Search Button and Dropdown */}
               <div className="relative" ref={searchRef}>
                 <button
-                  className="p-2 rounded-full hover:bg-[#F5F5F5]"
+                  className="p-2 rounded-full hover:bg-white/10"
                   onClick={() => setIsSearchOpen(!isSearchOpen)}>
-                  <Search className="h-5 w-5 text-[#1A1A1A]" />
+                  <Search className="h-5 w-5 text-white" />
                 </button>
 
                 {/* Search Dropdown */}
@@ -185,17 +185,17 @@ const Navbar = () => {
 
               <Button
                 variant="ghost"
-                className="hover:bg-[#F5F5F5] text-[#BB1919] hover:text-[#A51717]"
+                className="hover:bg-white/10 text-white hover:text-white/80"
                 onClick={() => signOut()}>
                 <img
                   src="/assets/icons/logout.svg"
                   alt="logout"
-                  className="h-5 w-5"
+                  className="h-5 w-5 brightness-0 invert"
                 />
               </Button>
               <div className="flex items-center gap-3">
                 {isAdmin && (
-                  <span className="px-2 py-1 text-xs font-medium bg-[#F5F5F5] rounded-full">
+                  <span className="px-2 py-1 text-xs font-medium bg-white/10 text-white rounded-full">
                     Admin
                   </span>
                 )}
@@ -205,7 +205,7 @@ const Navbar = () => {
                       user.imageUrl || "/assets/icons/profile-placeholder.svg"
                     }
                     alt="profile"
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8 rounded-full border-2 border-white"
                   />
                 </Link>
               </div>
@@ -215,7 +215,7 @@ const Navbar = () => {
       </div>
 
       {/* Main Navigation - App Features and Categories */}
-      <div className="bg-white">
+      <div className="bg-[#BB1919]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             {/* Desktop Navigation */}
@@ -230,16 +230,17 @@ const Navbar = () => {
                     className={cn(
                       "flex items-center space-x-2 text-sm font-medium transition-colors duration-200 rounded-lg px-4 py-2",
                       location.pathname === link.route
-                        ? "bg-[#BB1919] text-white"
-                        : "text-[#1A1A1A] hover:bg-[#F5F5F5]"
+                        ? "bg-white text-[#BB1919]"
+                        : "text-white hover:bg-white/10"
                     )}>
                     <img
                       src={link.imgURL}
                       alt={link.label}
                       className={cn(
                         "h-5 w-5",
-                        location.pathname === link.route &&
-                          "brightness-0 invert"
+                        location.pathname === link.route
+                          ? "brightness-0"
+                          : "brightness-0 invert"
                       )}
                     />
                     <span>{link.label}</span>
@@ -255,16 +256,17 @@ const Navbar = () => {
                       className={cn(
                         "flex items-center space-x-2 text-sm font-medium transition-colors duration-200 rounded-lg px-4 py-2",
                         location.pathname === link.route
-                          ? "bg-[#BB1919] text-white"
-                          : "text-[#1A1A1A] hover:bg-[#F5F5F5]"
+                          ? "bg-white text-[#BB1919]"
+                          : "text-white hover:bg-white/10"
                       )}>
                       <img
                         src={link.imgURL}
                         alt={link.label}
                         className={cn(
                           "h-5 w-5",
-                          location.pathname === link.route &&
-                            "brightness-0 invert"
+                          location.pathname === link.route
+                            ? "brightness-0"
+                            : "brightness-0 invert"
                         )}
                       />
                       <span>{link.label}</span>
@@ -275,12 +277,12 @@ const Navbar = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2 rounded-full hover:bg-[#F5F5F5]"
+              className="md:hidden p-2 rounded-full hover:bg-white/10"
               onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? (
-                <X className="h-6 w-6 text-[#1A1A1A]" />
+                <X className="h-6 w-6 text-white" />
               ) : (
-                <Menu className="h-6 w-6 text-[#1A1A1A]" />
+                <Menu className="h-6 w-6 text-white" />
               )}
             </button>
           </div>
@@ -289,7 +291,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-[#E5E5E5]">
+        <div className="md:hidden bg-[#BB1919] border-t border-white/20">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {/* Regular navigation items - shown to all authenticated users */}
             {regularLinks.map((link) => (
@@ -299,8 +301,8 @@ const Navbar = () => {
                 className={cn(
                   "flex items-center space-x-2 text-sm font-medium transition-colors duration-200 rounded-lg px-4 py-2",
                   location.pathname === link.route
-                    ? "bg-[#BB1919] text-white"
-                    : "text-[#1A1A1A] hover:bg-[#F5F5F5]"
+                    ? "bg-white text-[#BB1919]"
+                    : "text-white hover:bg-white/10"
                 )}
                 onClick={() => setIsOpen(false)}>
                 <img
@@ -308,7 +310,9 @@ const Navbar = () => {
                   alt={link.label}
                   className={cn(
                     "h-5 w-5 mr-2",
-                    location.pathname === link.route && "brightness-0 invert"
+                    location.pathname === link.route
+                      ? "brightness-0"
+                      : "brightness-0 invert"
                   )}
                 />
                 {link.label}
@@ -324,8 +328,8 @@ const Navbar = () => {
                   className={cn(
                     "flex items-center space-x-2 text-sm font-medium transition-colors duration-200 rounded-lg px-4 py-2",
                     location.pathname === link.route
-                      ? "bg-[#BB1919] text-white"
-                      : "text-[#1A1A1A] hover:bg-[#F5F5F5]"
+                      ? "bg-white text-[#BB1919]"
+                      : "text-white hover:bg-white/10"
                   )}
                   onClick={() => setIsOpen(false)}>
                   <img
@@ -333,7 +337,9 @@ const Navbar = () => {
                     alt={link.label}
                     className={cn(
                       "h-5 w-5 mr-2",
-                      location.pathname === link.route && "brightness-0 invert"
+                      location.pathname === link.route
+                        ? "brightness-0"
+                        : "brightness-0 invert"
                     )}
                   />
                   {link.label}
