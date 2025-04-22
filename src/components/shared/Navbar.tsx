@@ -47,6 +47,7 @@ const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const searchRef = useRef<HTMLDivElement>(null);
   const debouncedSearch = useDebounce(searchQuery, 300);
   const location = useLocation();
@@ -107,6 +108,15 @@ const Navbar = () => {
     if (isSuccess) navigate(0);
   }, [isSuccess]);
 
+  // Handle time update
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <nav
       className={cn(
@@ -130,6 +140,11 @@ const Navbar = () => {
 
             {/* User Actions */}
             <div className="flex items-center space-x-4">
+              {/* Current Time */}
+              <div className="text-white font-medium">
+                {currentTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
+              </div>
+              
               {/* Search Button and Dropdown */}
               <div className="relative" ref={searchRef}>
                 <button

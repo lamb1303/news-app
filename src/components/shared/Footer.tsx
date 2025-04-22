@@ -20,9 +20,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4 text-[#BB1919]">Contacto</h3>
             <div className="space-y-2">
-              <p>Email: contacto@lavoz.com</p>
+              <p>Email: informacion.lavoz@gmail.com</p>
               <p>Teléfono: (123) 456-7890</p>
-              <p>Dirección: Calle Principal #123</p>
+              
             </div>
           </div>
 

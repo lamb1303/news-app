@@ -96,7 +96,7 @@ const Home = () => {
                       }}
                       plugins={[
                         Autoplay({
-                          delay: 3000,
+                          delay: 5000,
                           stopOnInteraction: false,
                         }),
                       ]}>
@@ -151,9 +151,9 @@ const Home = () => {
                 )}
 
                 {/* All Posts Grid */}
-                {filteredPosts && filteredPosts.length > 0 ? (
+                {filteredPosts && filteredPosts.length > 2 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full lg:w-1/2">
-                    {filteredPosts.map((post: Models.Document) => (
+                    {filteredPosts.slice(0,2).map((post: Models.Document) => (
                       <div key={post.$id} className="w-full">
                         <PostCard post={post} />
                       </div>
@@ -173,9 +173,9 @@ const Home = () => {
                   Noticias Destacadas
                   <div className="h-1 w-20 bg-[#BB1919] rounded-full"></div>
                 </h2>
-                {filteredPosts && filteredPosts.length > 0 ? (
+                {filteredPosts && filteredPosts.length > 2 ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
-                    {filteredPosts.slice(0, 10).map((post: Models.Document) => (
+                    {filteredPosts.slice(0,5).map((post: Models.Document) => (
                       <div key={post.$id} className="w-full">
                         <PostCard post={post} />
                       </div>
