@@ -85,19 +85,16 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   };
 
   const handleCopyLink = () => {
-    const postUrl = `${window.location.origin}/posts/${post.$id}`;
-    navigator.clipboard.writeText(postUrl);
+    navigator.clipboard.writeText(window.location.origin + "/posts/" + post.$id);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
 
   const handleShareFacebook = () => {
-    const postUrl = `${window.location.origin}/posts/${post.$id}`;
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`, '_blank');
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + "/posts/" + post.$id)}`, '_blank');
   };
 
   const handleShareInstagram = () => {
-    const postUrl = `${window.location.origin}/posts/${post.$id}`;
     window.open(`https://www.instagram.com/`, '_blank');
   };
 

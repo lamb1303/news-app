@@ -13,18 +13,6 @@ import { useUserContext } from "@/context/AuthContext";
 import { useGetUserById } from "@/lib/react-query/queries";
 import { GridPostList, Loader } from "@/components/shared";
 
-interface StabBlockProps {
-  value: string | number;
-  label: string;
-}
-
-const StatBlock = ({ value, label }: StabBlockProps) => (
-  <div className="flex-center gap-2">
-    <p className="small-semibold lg:body-bold text-[#BB1919]">{value}</p>
-    <p className="small-medium lg:base-medium text-[#666666]">{label}</p>
-  </div>
-);
-
 const Profile = () => {
   const { id } = useParams();
   const { user } = useUserContext();

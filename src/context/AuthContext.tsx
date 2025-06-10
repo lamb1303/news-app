@@ -12,7 +12,7 @@ export const INITIAL_USER: IUser = {
   email: "",
   imageUrl: "",
   bio: "",
-  role: "user",
+  role: "USER",
 };
 
 const INITIAL_STATE = {
@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: currentAccount.email,
           imageUrl: currentAccount.imageUrl,
           bio: currentAccount.bio,
-          role: (currentAccount.role as "admin" | "user" | "editor") || "user",
+          role: (currentAccount.role?.toUpperCase?.() as "ADMIN" | "USER" | "EDITOR") || "USER",
         });
         setIsAuthenticated(true);
         return true;
